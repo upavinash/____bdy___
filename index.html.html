@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy Birthday Annu! 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+:root {
+  --pink:#ff6b9d; --deep-pink:#e91e8c; --gold:#ffd700;
+  --rose:#ff4081; --purple:#9c27b0; --cream:#fff9f0;
+  --bg:#0d0820;
+}
+html { scroll-behavior:smooth; overflow-x:hidden; }
+body { font-family:'Poppins',sans-serif; overflow-x:hidden; background:var(--bg); }
+
+/* ====== NAV DOTS ====== */
+.nav-dots {
+  position:fixed; right:12px; top:50%; transform:translateY(-50%);
+  z-index:1000; display:flex; flex-direction:column; gap:10px;
+}
+.nav-dot {
+  width:9px; height:9px; border-radius:50%;
+  background:rgba(255,255,255,0.35); cursor:pointer;
+  transition:all .3s; border:none; outline:none;
+}
+.nav-dot.active { background:#ffd700; transform:scale(1.5); box-shadow:0 0 8px #ffd700; }
+
+/* ====== PAGES ====== */
+.page {
+  min-height:100vh; width:100%; display:flex;
+  align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.page-tag {
+  position:absolute; top:18px; left:50%; transform:translateX(-50%);
+  font-size:.6rem; letter-spacing:5px; text-transform:uppercase;
+  color:rgba(255,255,255,.28); white-space:nowrap;
+}
+
+/* ====== FLOATING EMOJIS ====== */
+.floaters { position:absolute; width:100%; height:100%; top:0; left:0; pointer-events:none; overflow:hidden; }
+.floater {
+  position:absolute; opacity:0;
+  animation:floatUp linear infinite;
+}
+@keyframes floatUp {
+  0%   { bottom:-30px; opacity:0; transform:translateX(0) scale(.5) rotate(0deg); }
+  10%  { opacity:.9; }
+  90%  { opacity:.8; }
+  100% { bottom:105%; opacity:0; transform:translateX(var(--d,30px)) scale(1) rotate(var(--r,30deg)); }
+}
+
+/* ====== SCROLL ARROW ====== */
+.scroll-btn {
+  position:absolute; bottom:22px; left:50%; transform:translateX(-50%);
+  cursor:pointer; display:flex; flex-direction:column; align-items:center;
+  gap:4px; animation:arrowBounce 1.5s ease-in-out infinite; z-index:10;
+}
+.scroll-btn span { font-size:.55rem; letter-spacing:3px; color:rgba(255,255,255,.4); text-transform:uppercase; }
+.arrow-shape { width:18px; height:18px; border-right:2px solid rgba(255,255,255,.4); border-bottom:2px solid rgba(255,255,255,.4); transform:rotate(45deg); }
+@keyframes arrowBounce {
+  0%,100%{opacity:.5;transform:translateX(-50%) translateY(0);}
+  50%{opacity:1;transform:translateX(-50%) translateY(8px);}
+}
+
+/* ====== SHARED KEYFRAMES ====== */
+@keyframes glow { from{text-shadow:0 0 10px #fff,0 0 25px var(--pink),0 0 45px var(--pink);} to{text-shadow:0 0 20px #fff,0 0 40px var(--gold),0 0 70px var(--gold);} }
+@keyframes pulse { 0%,100%{opacity:.55;} 50%{opacity:1;} }
+@keyframes floatY { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-12px);} }
+@keyframes floatYR { 0%,100%{transform:translateY(0) rotate(-5deg);} 50%{transform:translateY(-18px) rotate(5deg);} }
+@keyframes shimmer { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+@keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+@keyframes starSpin { from{transform:rotate(0deg)scale(1);} 50%{transform:rotate(180deg)scale(1.3);} to{transform:rotate(360deg)scale(1);} }
+@keyframes flicker {
+  0%{transform:scaleX(1)scaleY(1)rotate(-3deg);}
+  33%{transform:scaleX(.92)scaleY(1.08)rotate(3deg);}
+  66%{transform:scaleX(1.05)scaleY(.95)rotate(-2deg);}
+  100%{transform:scaleX(.95)scaleY(1.05)rotate(2deg);}
+}
+@keyframes sparkPop { 0%,100%{opacity:0;transform:scale(0)rotate(0deg);} 50%{opacity:1;transform:scale(1)rotate(180deg);} }
+@keyframes colorCycle {
+  0%{color:#ff6b9d;text-shadow:0 0 25px #ff6b9d,0 0 50px #ff6b9d;}
+  25%{color:#ffd700;text-shadow:0 0 25px #ffd700,0 0 50px #ffd700;}
+  50%{color:#ff4081;text-shadow:0 0 25px #ff4081,0 0 50px #ff4081;}
+  75%{color:#ab47bc;text-shadow:0 0 25px #ab47bc,0 0 50px #ab47bc;}
+  100%{color:#ff6b9d;text-shadow:0 0 25px #ff6b9d,0 0 50px #ff6b9d;}
+}
+
+/* ==========================================
+   PAGE 1 — BIRTHDAY CARD
+   ========================================== */
+#page1 {
+  background:radial-gradient(ellipse at 30% 30%, #2d1060 0%, #0d0820 60%),
+             radial-gradient(ellipse at 80% 70%, #1a0840 0%, transparent 60%);
+  flex-direction:column; gap:20px;
+}
+.card-scene {
+  perspective:1100px;
+  width:min(320px,86vw); height:min(460px,68vh);
+  cursor:pointer; flex-shrink:0;
+}
+.card-3d {
+  width:100%; height:100%; position:relative;
+  transform-style:preserve-3d;
+  transition:transform .85s cubic-bezier(.4,0,.2,1);
+}
+.card-3d.flipped { transform:rotateY(180deg); }
+.card-face {
+  position:absolute; width:100%; height:100%;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius:22px; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px;
+}
+.card-front {
+  background:linear-gradient(145deg, #6a0dad, #c2185b, #ff6b9d);
+  box-shadow:0 0 0 2px rgba(255,215,0,.4), 0 20px 60px rgba(200,0,100,.5), 0 0 80px rgba(106,13,173,.4);
+}
+.card-front-shine {
+  position:absolute; top:0; left:-60%; width:50%; height:100%;
+  background:linear-gradient(to right, transparent, rgba(255,255,255,.12), transparent);
+  animation:shine 3s ease-in-out infinite;
+}
+@keyframes shine { 0%,100%{left:-60%;} 50%{left:110%;} }
+.card-front-title {
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(2.4rem,7.5vw,3.8rem);
+  color:#fff; text-align:center; line-height:1.2;
+  animation:glow 2.5s ease-in-out infinite alternate;
+}
+.card-name-front {
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(3rem,10vw,5.2rem);
+  color:#ffd700; letter-spacing:5px;
+  text-shadow:2px 2px 0 rgba(0,0,0,.25), 0 0 30px rgba(255,215,0,.6);
+  animation:floatY 3s ease-in-out infinite;
+}
+.card-emoji-strip { font-size:1.8rem; letter-spacing:6px; margin:12px 0; animation:floatY 2.5s ease-in-out infinite .3s; }
+.card-msg-front {
+  font-size:.78rem; color:rgba(255,255,255,.85); text-align:center;
+  line-height:1.7; letter-spacing:.5px; margin-top:8px;
+  font-family:'Poppins',sans-serif;
+}
+.tap-hint { position:absolute; bottom:16px; font-size:.62rem; color:rgba(255,255,255,.55); letter-spacing:2px; animation:pulse 2s ease-in-out infinite; }
+
+.card-back {
+  background:linear-gradient(145deg, #ffd700, #ff6b9d, #9c27b0);
+  transform:rotateY(180deg);
+  box-shadow:0 0 0 2px rgba(255,215,0,.4), 0 20px 60px rgba(255,107,157,.5);
+}
+.card-heart-big { font-size:3.5rem; animation:floatY 3s ease-in-out infinite; }
+.card-back-msg {
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(1.7rem,5.5vw,2.4rem);
+  color:#fff; text-align:center; line-height:1.65;
+  text-shadow:1px 1px 4px rgba(0,0,0,.25);
+}
+.card-back-date {
+  margin-top:14px; padding:8px 20px;
+  background:rgba(255,255,255,.25); border-radius:50px;
+  font-size:.7rem; letter-spacing:4px; color:#fff;
+  font-family:'Poppins',sans-serif; font-weight:600; text-transform:uppercase;
+}
+.card-back-love { font-family:'Great Vibes',cursive; font-size:2rem; color:#fff; margin-top:12px; }
+.divider-gold {
+  width:75%; margin:14px auto; height:1px;
+  background:linear-gradient(to right,transparent,rgba(255,255,255,.6),transparent);
+}
+.card-p1-label {
+  font-size:clamp(.7rem,2.5vw,.85rem); letter-spacing:4px; color:rgba(255,255,255,.45);
+  font-family:'Poppins',sans-serif; text-transform:uppercase;
+  animation:pulse 3s ease-in-out infinite;
+}
+
+/* ==========================================
+   PAGE 2 — INVITATION
+   ========================================== */
+#page2 {
+  background:radial-gradient(ellipse at 70% 20%, #1a0532 0%, #080814 60%),
+             radial-gradient(ellipse at 20% 80%, #0d0530 0%, transparent 60%);
+}
+.invite-wrapper { width:min(350px,90vw); position:relative; }
+.invite-outer-glow {
+  position:absolute; inset:-3px; border-radius:26px;
+  background:linear-gradient(135deg,#ffd700,#ff6b9d,#9c27b0,#ffd700);
+  background-size:300% 300%; z-index:0;
+  animation:gradShift 4s ease-in-out infinite;
+}
+@keyframes gradShift { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+.invite-card {
+  position:relative; z-index:1;
+  background:linear-gradient(155deg,#fffaf5,#fff3e8,#fffaf5);
+  border-radius:24px; padding:35px 28px;
+  text-align:center;
+  box-shadow:0 25px 70px rgba(0,0,0,.55);
+  animation:floatY 4.5s ease-in-out infinite;
+}
+.invite-corner { position:absolute; font-size:1.4rem; }
+.corner-tl{top:10px;left:10px;} .corner-tr{top:10px;right:10px;}
+.corner-bl{bottom:10px;left:10px;} .corner-br{bottom:10px;right:10px;}
+.invite-tagline { font-family:'Great Vibes',cursive; font-size:clamp(1.4rem,4.5vw,2rem); color:#7b1fa2; }
+.invite-name {
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(2.8rem,9vw,4.5rem); letter-spacing:7px;
+  color:#e91e8c; margin:4px 0;
+  animation:nameWave 3.5s ease-in-out infinite;
+}
+@keyframes nameWave { 0%,100%{color:#e91e8c;} 50%{color:#7b1fa2;} }
+.invite-sub { font-size:.65rem; color:#aaa; letter-spacing:4px; text-transform:uppercase; font-family:'Poppins',sans-serif; }
+.invite-divider { width:80%; margin:14px auto; height:1.5px; background:linear-gradient(to right,transparent,#ffd700,transparent); }
+.invite-intro { font-size:.72rem; color:#888; letter-spacing:2px; text-transform:uppercase; font-family:'Poppins',sans-serif; margin:8px 0; }
+.invite-date-badge {
+  display:inline-flex; flex-direction:column; align-items:center;
+  background:linear-gradient(135deg,#e91e8c,#7b1fa2);
+  border-radius:16px; padding:16px 30px; margin:16px 0;
+  box-shadow:0 10px 30px rgba(233,30,140,.45), 0 0 0 3px rgba(255,215,0,.3);
+  animation:datePulse 2s ease-in-out infinite;
+}
+@keyframes datePulse { 0%,100%{box-shadow:0 10px 30px rgba(233,30,140,.45),0 0 0 3px rgba(255,215,0,.3);} 50%{box-shadow:0 10px 40px rgba(233,30,140,.7),0 0 0 5px rgba(255,215,0,.5);} }
+.date-num { font-family:'Playfair Display',serif; font-size:clamp(2.8rem,9vw,4rem); font-weight:900; color:#ffd700; line-height:1; }
+.date-month { font-size:.95rem; color:#fff; letter-spacing:5px; font-weight:700; text-transform:uppercase; }
+.date-year { font-size:.65rem; color:rgba(255,255,255,.75); letter-spacing:4px; margin-top:2px; }
+.invite-fun { font-size:.75rem; color:#666; font-family:'Poppins',sans-serif; margin:8px 0; }
+.invite-close { font-family:'Great Vibes',cursive; font-size:clamp(1.2rem,4vw,1.7rem); color:#7b1fa2; margin-top:8px; }
+.invite-spin { display:inline-block; animation:spin 8s linear infinite; }
+.invite-spin.rev { animation-direction:reverse; }
+
+/* floating extras page 2 */
+.inv-float { position:absolute; font-size:clamp(1.2rem,4vw,2rem); animation:floatYR 3s ease-in-out infinite; pointer-events:none; }
+
+/* ==========================================
+   PAGE 3 — BIRTHDAY CAKE
+   ========================================== */
+#page3 {
+  background:radial-gradient(ellipse at 50% 20%, #1c0040 0%, #070710 60%);
+  flex-direction:column; gap:clamp(12px,3vw,25px);
+}
+.p3-title {
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(2rem,6.5vw,3.2rem);
+  color:#ffd700; text-align:center; z-index:2;
+  animation:glow 2.5s ease-in-out infinite alternate;
+}
+.cake-wrap { display:flex; flex-direction:column; align-items:center; position:relative; z-index:2; }
+.candles-row { display:flex; gap:clamp(10px,3vw,18px); margin-bottom:-4px; z-index:5; position:relative; }
+.candle { display:flex; flex-direction:column; align-items:center; }
+.flame {
+  width:16px; height:26px;
+  background:radial-gradient(ellipse at 50% 80%, #fff 0%, #ffd700 35%, #ff7000 70%, transparent 100%);
+  border-radius:50% 50% 40% 40%;
+  animation:flicker .45s ease-in-out infinite alternate;
+  box-shadow:0 0 10px #ffd700, 0 0 22px #ff6b00, 0 0 40px rgba(255,107,0,.5);
+  flex-shrink:0;
+}
+.candle-stick {
+  width:14px; height:clamp(40px,7vw,60px);
+  border-radius:4px; flex-shrink:0;
+  position:relative; overflow:hidden;
+}
+.candle-stick::after {
+  content:''; position:absolute; inset:0;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 7px,rgba(255,255,255,.15) 7px,rgba(255,255,255,.15) 8.5px);
+}
+.c1 .candle-stick{background:linear-gradient(to right,#ff6b9d,#f06292);}
+.c2 .candle-stick{background:linear-gradient(to right,#ab47bc,#7b1fa2);}
+.c3 .candle-stick{background:linear-gradient(to right,#42a5f5,#1565c0);}
+.c4 .candle-stick{background:linear-gradient(to right,#66bb6a,#2e7d32);}
+.c5 .candle-stick{background:linear-gradient(to right,#ffa726,#e65100);}
+.c6 .candle-stick{background:linear-gradient(to right,#ef5350,#b71c1c);}
+
+/* Cake layers */
+.layer-top {
+  width:min(190px,52vw); height:clamp(50px,8vw,65px);
+  background:linear-gradient(to right,#c2185b,#f06292,#c2185b);
+  border-radius:14px 14px 5px 5px;
+  position:relative;
+  box-shadow:inset 0 4px 10px rgba(255,255,255,.15), 0 4px 20px rgba(194,24,91,.5);
+}
+.layer-top::before { /* top frosting ring */
+  content:''; position:absolute; top:-13px; left:0; right:0;
+  height:15px; background:linear-gradient(to right,#f48fb1,#f06292,#f48fb1);
+  border-radius:8px 8px 0 0;
+}
+.layer-top::after { /* drip */
+  content:''; position:absolute; bottom:-9px; left:8%; right:8%;
+  height:11px;
+  background:
+    radial-gradient(ellipse 13px 11px at 10% 0%,white 50%,transparent 51%),
+    radial-gradient(ellipse 13px 11px at 27% 0%,white 50%,transparent 51%),
+    radial-gradient(ellipse 13px 11px at 45% 0%,white 50%,transparent 51%),
+    radial-gradient(ellipse 13px 11px at 63% 0%,white 50%,transparent 51%),
+    radial-gradient(ellipse 13px 11px at 80% 0%,white 50%,transparent 51%),
+    radial-gradient(ellipse 13px 11px at 97% 0%,white 50%,transparent 51%);
+}
+.layer-top-dots { display:flex; justify-content:space-evenly; align-items:center; height:100%; padding:0 12px; }
+.l-dot { width:10px; height:10px; border-radius:50%; background:#ffd700; box-shadow:0 0 8px #ffd700; }
+
+.layer-mid {
+  width:min(240px,66vw); height:clamp(60px,9vw,75px);
+  background:linear-gradient(to right,#6a1b9a,#ab47bc,#6a1b9a);
+  position:relative;
+  box-shadow:inset 0 4px 10px rgba(255,255,255,.12), 0 4px 18px rgba(106,27,154,.5);
+}
+.layer-mid::before { content:''; position:absolute; top:0; left:0; right:0; height:10px; background:rgba(255,255,255,.18); }
+.layer-mid-dec { display:flex; justify-content:space-evenly; align-items:center; height:100%; padding:0 15px; }
+.m-dot { width:11px; height:11px; border-radius:50%; box-shadow:0 0 8px currentColor; }
+
+.layer-bot {
+  width:min(290px,80vw); height:clamp(65px,10vw,85px);
+  background:linear-gradient(to right,#1565c0,#42a5f5,#1565c0);
+  border-radius:0 0 22px 22px;
+  position:relative;
+  box-shadow:inset 0 4px 10px rgba(255,255,255,.1), 0 8px 30px rgba(21,101,192,.55), 0 0 50px rgba(66,165,245,.2);
+}
+.layer-bot-dec { display:flex; justify-content:space-evenly; align-items:center; height:100%; padding:0 18px; font-size:clamp(.9rem,2.5vw,1.2rem); }
+.plate {
+  width:min(330px,90vw); height:18px;
+  background:linear-gradient(to bottom,#f5f5f5,#bdbdbd);
+  border-radius:50%;
+  box-shadow:0 6px 20px rgba(0,0,0,.45);
+}
+.cake-sparkle { position:absolute; animation:sparkPop 1.8s ease-in-out infinite; pointer-events:none; font-size:1.3rem; }
+.p3-wish {
+  font-family:'Great Vibes',cursive;
+  font-size:clamp(1.4rem,4.5vw,2.2rem); color:#ffd700;
+  text-align:center; z-index:2;
+  animation:pulse 2s ease-in-out infinite;
+}
+
+/* ==========================================
+   PAGE 4 — ANNU CELEBRATION
+   ========================================== */
+#page4 {
+  background:radial-gradient(ellipse at 50% 40%, #200040 0%, #060610 70%);
+  flex-direction:column; gap:clamp(10px,2.5vw,20px);
+}
+.p4-above { font-family:'Great Vibes',cursive; font-size:clamp(1.4rem,4.5vw,2.2rem); color:rgba(255,255,255,.65); text-align:center; }
+.balloons { display:flex; gap:clamp(8px,2.5vw,18px); justify-content:center; align-items:flex-end; }
+.balloon { font-size:clamp(2rem,7vw,3.5rem); animation:floatYR 3s ease-in-out infinite; filter:drop-shadow(0 8px 16px rgba(0,0,0,.4)); }
+.annu-row { display:flex; justify-content:center; align-items:center; gap:clamp(2px,1vw,8px); perspective:600px; }
+.annu-letter {
+  font-family:'Playfair Display',serif; font-weight:900;
+  font-size:clamp(4rem,17vw,8.5rem);
+  display:inline-block; cursor:default; user-select:none;
+  animation:letterDance 1.3s ease-in-out infinite;
+}
+.annu-letter:nth-child(1){animation-delay:0s;}
+.annu-letter:nth-child(2){animation-delay:.17s;}
+.annu-letter:nth-child(3){animation-delay:.34s;}
+.annu-letter:nth-child(4){animation-delay:.51s;}
+@keyframes letterDance {
+  0%,100%{transform:translateY(0)rotateY(0deg)rotateZ(0deg)scale(1);}
+  20%{transform:translateY(-20px)rotateY(-20deg)rotateZ(-3deg)scale(1.12);}
+  70%{transform:translateY(6px)rotateY(15deg)rotateZ(2deg)scale(.93);}
+}
+.annu-letter:nth-child(1){animation:letterDance 1.3s ease-in-out infinite 0s;color:#ff6b9d;text-shadow:0 0 25px #ff6b9d,0 0 55px #ff6b9d,3px 3px 0 rgba(0,0,0,.2);}
+.annu-letter:nth-child(2){animation:letterDance 1.3s ease-in-out infinite .17s;color:#ffd700;text-shadow:0 0 25px #ffd700,0 0 55px #ffd700,3px 3px 0 rgba(0,0,0,.2);}
+.annu-letter:nth-child(3){animation:letterDance 1.3s ease-in-out infinite .34s;color:#ff4081;text-shadow:0 0 25px #ff4081,0 0 55px #ff4081,3px 3px 0 rgba(0,0,0,.2);}
+.annu-letter:nth-child(4){animation:letterDance 1.3s ease-in-out infinite .51s;color:#ce93d8;text-shadow:0 0 25px #ce93d8,0 0 55px #ce93d8,3px 3px 0 rgba(0,0,0,.2);}
+.p4-sub { font-size:clamp(.62rem,2vw,.82rem); color:rgba(255,255,255,.5); letter-spacing:6px; text-transform:uppercase; font-family:'Poppins',sans-serif; text-align:center; animation:pulse 2.5s ease-in-out infinite; }
+.stars-strip { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; max-width:min(300px,80vw); }
+.star-s { font-size:1.4rem; animation:starSpin 2s linear infinite; }
+.p4-date { font-size:clamp(.58rem,1.8vw,.72rem); color:rgba(255,255,255,.3); letter-spacing:5px; font-family:'Poppins',sans-serif; text-align:center; margin-top:4px; }
+.corner-dec { position:absolute; font-size:clamp(1.5rem,4vw,2.2rem); animation:floatY 3s ease-in-out infinite; pointer-events:none; }
+
+/* Canvas confetti */
+#confettiCanvas { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:998; }
+</style>
+</head>
+<body>
+
+<canvas id="confettiCanvas"></canvas>
+
+<!-- Nav Dots -->
+<nav class="nav-dots" aria-label="Page navigation">
+  <button class="nav-dot active" onclick="goPage(0)" title="Card"></button>
+  <button class="nav-dot"        onclick="goPage(1)" title="Invitation"></button>
+  <button class="nav-dot"        onclick="goPage(2)" title="Cake"></button>
+  <button class="nav-dot"        onclick="goPage(3)" title="Celebrate"></button>
+</nav>
+
+<!-- ======================== PAGE 1 — CARD ======================== -->
+<section class="page" id="page1">
+  <div class="floaters" id="fl1"></div>
+  <span class="page-tag">✦ Birthday Card ✦</span>
+
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;z-index:2;">
+    <p class="card-p1-label">✦ A Special Card for You ✦</p>
+    <div class="card-scene" id="cardScene" onclick="flipCard()" role="button" aria-label="Tap to open card">
+      <div class="card-3d" id="card3d">
+
+        <!-- FRONT -->
+        <div class="card-face card-front">
+          <div class="card-front-shine"></div>
+          <div class="card-emoji-strip">🌸&nbsp;🎀&nbsp;🌸</div>
+          <div class="card-front-title">Happy Birthday</div>
+          <div class="card-name-front">ANNU</div>
+          <div class="card-emoji-strip">🎉&nbsp;🎊&nbsp;🎉</div>
+          <p class="card-msg-front">Wishing you all the joy<br>the world can give! 💖<br>You are so special!</p>
+          <span class="tap-hint">✦ Tap to open card ✦</span>
+        </div>
+
+        <!-- BACK -->
+        <div class="card-face card-back">
+          <div class="card-heart-big">💖</div>
+          <div class="card-back-msg">
+            Dear Annu,<br>
+            May your day be filled<br>with love, laughter<br>&amp; pure magic!
+          </div>
+          <div class="divider-gold"></div>
+          <div class="card-back-date">🌟 12 May 2026 🌟</div>
+          <div class="card-back-love">With Love 💕</div>
+          <span class="tap-hint">✦ Tap to close ✦</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-btn" onclick="goPage(1)">
+    <div class="arrow-shape"></div>
+    <span>Next</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 2 — INVITATION ======================== -->
+<section class="page" id="page2">
+  <div class="floaters" id="fl2"></div>
+  <span class="page-tag">✦ Birthday Invitation ✦</span>
+
+  <!-- Floating decor -->
+  <span class="inv-float" style="top:8%;left:4%;animation-delay:0s;">🎈</span>
+  <span class="inv-float" style="top:12%;right:4%;animation-delay:.5s;">🎈</span>
+  <span class="inv-float" style="bottom:8%;left:5%;animation-delay:1s;font-size:1.5rem;">⭐</span>
+  <span class="inv-float" style="bottom:12%;right:5%;animation-delay:.7s;font-size:1.5rem;">⭐</span>
+  <span class="inv-float" style="top:30%;left:2%;animation-delay:.3s;font-size:1.2rem;">💫</span>
+  <span class="inv-float" style="top:30%;right:2%;animation-delay:.9s;font-size:1.2rem;">💫</span>
+
+  <div class="invite-wrapper" style="z-index:2;">
+    <div class="invite-outer-glow"></div>
+    <div class="invite-card">
+      <span class="invite-corner corner-tl">🌸</span>
+      <span class="invite-corner corner-tr">🌸</span>
+      <span class="invite-corner corner-bl">✨</span>
+      <span class="invite-corner corner-br">✨</span>
+
+      <div class="invite-tagline">You are Invited to</div>
+      <div class="invite-name">ANNU</div>
+      <div class="invite-sub">Birthday Celebration</div>
+
+      <div class="invite-divider"></div>
+
+      <div class="invite-intro">🎉 Join us to celebrate 🎉</div>
+
+      <div class="invite-date-badge">
+        <div class="date-num">12</div>
+        <div class="date-month">May</div>
+        <div class="date-year">2 0 2 6</div>
+      </div>
+
+      <div class="invite-fun">It's going to be magical! 🌟</div>
+
+      <div class="invite-divider"></div>
+
+      <div>
+        <span class="invite-spin">🎊</span>
+        <span style="font-size:.72rem;color:#888;font-family:'Poppins',sans-serif;"> Come celebrate! </span>
+        <span class="invite-spin rev">🎊</span>
+      </div>
+
+      <div class="invite-close">See you there! 💕</div>
+    </div>
+  </div>
+
+  <div class="scroll-btn" onclick="goPage(2)">
+    <div class="arrow-shape"></div>
+    <span>Next</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 3 — CAKE ======================== -->
+<section class="page" id="page3">
+  <span class="page-tag">✦ Make a Wish ✦</span>
+  <div class="p3-title">Make a Wish! 🌟</div>
+
+  <div class="cake-wrap">
+    <!-- sparkles -->
+    <div style="position:relative;width:100%;height:0;overflow:visible;">
+      <span class="cake-sparkle" style="top:-35px;left:12%;animation-delay:0s;">✨</span>
+      <span class="cake-sparkle" style="top:-25px;left:80%;animation-delay:.7s;">⭐</span>
+      <span class="cake-sparkle" style="top:-15px;left:50%;animation-delay:1.2s;">💫</span>
+      <span class="cake-sparkle" style="top:-40px;left:35%;animation-delay:.4s;">🌟</span>
+    </div>
+
+    <!-- candles -->
+    <div class="candles-row">
+      <div class="candle c1"><div class="flame" style="animation-delay:.0s;"></div><div class="candle-stick"></div></div>
+      <div class="candle c2"><div class="flame" style="animation-delay:.08s;"></div><div class="candle-stick"></div></div>
+      <div class="candle c3"><div class="flame" style="animation-delay:.17s;"></div><div class="candle-stick"></div></div>
+      <div class="candle c4"><div class="flame" style="animation-delay:.25s;"></div><div class="candle-stick"></div></div>
+      <div class="candle c5"><div class="flame" style="animation-delay:.12s;"></div><div class="candle-stick"></div></div>
+      <div class="candle c6"><div class="flame" style="animation-delay:.22s;"></div><div class="candle-stick"></div></div>
+    </div>
+
+    <!-- top layer -->
+    <div class="layer-top">
+      <div class="layer-top-dots">
+        <div class="l-dot"></div><div class="l-dot"></div>
+        <div class="l-dot"></div><div class="l-dot"></div>
+        <div class="l-dot"></div>
+      </div>
+    </div>
+
+    <!-- mid layer -->
+    <div class="layer-mid">
+      <div class="layer-mid-dec">
+        <div class="m-dot" style="color:#ffd700;background:#ffd700;"></div>
+        <div class="m-dot" style="color:#ff6b9d;background:#ff6b9d;"></div>
+        <div class="m-dot" style="color:#fff;background:#fff;"></div>
+        <div class="m-dot" style="color:#ffd700;background:#ffd700;"></div>
+        <div class="m-dot" style="color:#ff6b9d;background:#ff6b9d;"></div>
+        <div class="m-dot" style="color:#fff;background:#fff;"></div>
+        <div class="m-dot" style="color:#ffd700;background:#ffd700;"></div>
+      </div>
+    </div>
+
+    <!-- bottom layer -->
+    <div class="layer-bot">
+      <div class="layer-bot-dec">
+        <span>🌟</span><span>🎀</span><span>💖</span><span>🎀</span><span>🌟</span>
+      </div>
+    </div>
+    <div class="plate"></div>
+
+    <!-- side sparkles -->
+    <div style="position:relative;width:100%;height:0;overflow:visible;">
+      <span class="cake-sparkle" style="top:5px;left:calc(50% - 160px);animation-delay:.3s;">✨</span>
+      <span class="cake-sparkle" style="top:5px;right:calc(50% - 160px);animation-delay:.9s;">💫</span>
+    </div>
+  </div>
+
+  <div class="p3-wish">Happy Birthday Annu! 🎂</div>
+
+  <div class="scroll-btn" onclick="goPage(3)">
+    <div class="arrow-shape"></div>
+    <span>Next</span>
+  </div>
+</section>
+
+<!-- ======================== PAGE 4 — ANNU CELEBRATION ======================== -->
+<section class="page" id="page4">
+  <div class="floaters" id="fl4"></div>
+  <span class="page-tag">✦ Celebration ✦</span>
+
+  <!-- corner decorations -->
+  <span class="corner-dec" style="top:8%;left:5%;animation-delay:0s;">🎀</span>
+  <span class="corner-dec" style="top:8%;right:5%;animation-delay:.4s;">🎀</span>
+  <span class="corner-dec" style="bottom:10%;left:5%;font-size:1.3rem;animation-delay:.8s;">⭐</span>
+  <span class="corner-dec" style="bottom:10%;right:5%;font-size:1.3rem;animation-delay:1.2s;">⭐</span>
+
+  <div class="p4-above">✨ Celebrating ✨</div>
+
+  <div class="balloons">
+    <span class="balloon" style="animation-delay:0s;">🎈</span>
+    <span class="balloon" style="animation-delay:.35s;">🎊</span>
+    <span class="balloon" style="animation-delay:.7s;">🎉</span>
+    <span class="balloon" style="animation-delay:1.05s;">🎊</span>
+    <span class="balloon" style="animation-delay:1.4s;">🎈</span>
+  </div>
+
+  <div class="annu-row">
+    <span class="annu-letter">A</span>
+    <span class="annu-letter">N</span>
+    <span class="annu-letter">N</span>
+    <span class="annu-letter">U</span>
+  </div>
+
+  <div class="p4-sub">Happy Birthday Girl! 🌟</div>
+
+  <div class="stars-strip">
+    <span class="star-s" style="animation-delay:0s;">⭐</span>
+    <span class="star-s" style="animation-delay:.2s;">🌟</span>
+    <span class="star-s" style="animation-delay:.4s;">💫</span>
+    <span class="star-s" style="animation-delay:.6s;">✨</span>
+    <span class="star-s" style="animation-delay:.8s;">⭐</span>
+    <span class="star-s" style="animation-delay:1s;">🌟</span>
+    <span class="star-s" style="animation-delay:1.2s;">💫</span>
+  </div>
+
+  <div class="p4-date">12 · MAY · 2026</div>
+</section>
+
+<script>
+/* ====== NAVIGATION ====== */
+const pages = document.querySelectorAll('.page');
+const dots  = document.querySelectorAll('.nav-dot');
+let cur = 0;
+
+function goPage(idx) {
+  cur = idx;
+  pages[idx].scrollIntoView({ behavior:'smooth' });
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      cur = [...pages].indexOf(e.target);
+      dots.forEach((d,i) => d.classList.toggle('active', i===cur));
+    }
+  });
+}, { threshold:.5 });
+pages.forEach(p => obs.observe(p));
+
+/* ====== CARD FLIP ====== */
+function flipCard() {
+  document.getElementById('card3d').classList.toggle('flipped');
+  launchConfetti(60);
+}
+
+/* ====== FLOATING EMOJIS ====== */
+function spawnFloaters(id, emojis, count) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  for (let i=0; i<count; i++) {
+    const el = document.createElement('span');
+    el.className = 'floater';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.left = Math.random()*96 + '%';
+    el.style.fontSize = (.7+Math.random()*1.1)+'rem';
+    el.style.animationDuration = (6+Math.random()*10)+'s';
+    el.style.animationDelay = (Math.random()*10)+'s';
+    el.style.setProperty('--d', (Math.random()*80-40)+'px');
+    el.style.setProperty('--r', (Math.random()*60-30)+'deg');
+    c.appendChild(el);
+  }
+}
+
+spawnFloaters('fl1', ['🌸','💖','💕','✨','⭐','💫','🌟'], 22);
+spawnFloaters('fl2', ['🎈','🎊','🎉','⭐','💫','🌟','💕'], 18);
+spawnFloaters('fl4', ['🎊','🎉','⭐','💖','💕','✨','🌟','💫','🎈','🌸'], 30);
+
+/* ====== CONFETTI ====== */
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas.getContext('2d');
+let pieces = [];
+let animID = null;
+
+function resize() { canvas.width=innerWidth; canvas.height=innerHeight; }
+resize();
+window.addEventListener('resize', resize);
+
+const COLORS = ['#ff6b9d','#ffd700','#ff4081','#ab47bc','#42a5f5','#66bb6a','#ff7043','#fff'];
+
+function launchConfetti(n) {
+  for (let i=0; i<n; i++) {
+    pieces.push({
+      x: Math.random()*canvas.width,
+      y: -10,
+      w: 7+Math.random()*8,
+      h: 4+Math.random()*5,
+      color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      vx: (Math.random()-.5)*5,
+      vy: 2.5+Math.random()*3.5,
+      rot: Math.random()*360,
+      rv: (Math.random()-.5)*10,
+      shape: Math.random()>.5?'rect':'circle'
+    });
+  }
+  if (!animID) animateConfetti();
+}
+
+function animateConfetti() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  pieces.forEach(p => {
+    p.x+=p.vx; p.y+=p.vy; p.rot+=p.rv;
+    const alpha = p.y>canvas.height*.75 ? Math.max(0,1-(p.y-canvas.height*.75)/(canvas.height*.25)) : 1;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.rot*Math.PI/180);
+    ctx.fillStyle = p.color;
+    if (p.shape==='rect') { ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); }
+    else { ctx.beginPath(); ctx.arc(0,0,p.w/2.5,0,Math.PI*2); ctx.fill(); }
+    ctx.restore();
+  });
+  pieces = pieces.filter(p=>p.y<canvas.height+30);
+  if (pieces.length>0) { animID=requestAnimationFrame(animateConfetti); }
+  else { animID=null; ctx.clearRect(0,0,canvas.width,canvas.height); }
+}
+
+/* auto-confetti on page4 */
+const p4obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      launchConfetti(90);
+      setTimeout(()=>launchConfetti(70), 1800);
+      setTimeout(()=>launchConfetti(60), 3600);
+    }
+  });
+}, { threshold:.4 });
+p4obs.observe(document.getElementById('page4'));
+
+/* confetti on page2 appearance too */
+const p2obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) launchConfetti(50); });
+}, { threshold:.5 });
+p2obs.observe(document.getElementById('page2'));
+
+/* ====== TOUCH SWIPE ====== */
+let ty0 = 0;
+document.addEventListener('touchstart', e=>{ ty0=e.touches[0].clientY; }, {passive:true});
+document.addEventListener('touchend', e=>{
+  const delta = ty0 - e.changedTouches[0].clientY;
+  if (Math.abs(delta)>55) {
+    if (delta>0 && cur<3) goPage(cur+1);
+    else if (delta<0 && cur>0) goPage(cur-1);
+  }
+}, {passive:true});
+</script>
+</body>
+</html>
